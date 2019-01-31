@@ -2,6 +2,10 @@
 
 All notable changes to `period` will be documented in this file
 
+## 2.0.0
+
+- Breaking Change: `Period::length()` now uses the Period's precision instead of always returning days
+
 ## 1.4.4 - 2019-08-05
 
 - ~Performance improvement in `Period::contains()` (#46)~ edit: this change wasn't merged and targeted at 2.0
