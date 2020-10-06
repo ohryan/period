@@ -52,6 +52,29 @@ class PeriodTest extends TestCase
         );
     }
 
+    /** @test */
+    public function it_can_determine_if_two_periods_touch_each_other_precisely() {
+        $this->assertTrue(
+            Period::make('2018-01-01 06:30:00', '2018-01-01 07:30:00', Precision::SECOND)
+                  ->touchesWith(Period::make('2018-01-01 07:30:00', '2018-01-01 10:00:00', Precision::SECOND))
+        );
+
+        $this->assertFalse(
+            Period::make('2018-01-01 06:30:00', '2018-01-01 07:30:00', Precision::SECOND)
+                  ->touchesWith(Period::make('2018-01-01 09:00:00', '2018-01-01 10:00:00', Precision::SECOND))
+        );
+        $this->assertTrue(
+            Period::make('2018-01-01 06:30:00', '2018-01-01 07:30:00', Precision::SECOND)
+                  ->touchesWith(Period::make('2018-01-01 07:30:00', '2018-01-01 10:00:00', Precision::SECOND))
+        );
+
+        $this->assertFalse(
+            Period::make('2018-01-01 06:30:00', '2018-01-01 07:30:00', Precision::SECOND)
+                  ->touchesWith(Period::make('2018-01-01 09:00:00', '2018-01-01 10:00:00', Precision::SECOND))
+        );
+    }
+
+
     /**
      * @test
      * @dataProvider noOverlappingDates

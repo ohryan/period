@@ -163,7 +163,30 @@ class Period implements IteratorAggregate
             return true;
         }
 
+        if ($this->precisionMask > Precision::DAY) {
+            return $this->touchesWithSeconds($period);
+        }
+
+        if ($this->getIncludedEnd()->diff($period->getIncludedStart())->days <= 1) {
+            return true;
+        }
+
         if ($this->getIncludedStart()->diff($period->getIncludedEnd())->days <= 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function touchesWithSeconds(Period $period): bool
+    {
+        $this->ensurePrecisionMatches($period);
+
+        if($this->getIncludedEnd()->getTimestamp() -  $period->getIncludedStart()->getTimestamp() === 0) {
+            return true;
+        }
+
+        if($this->getIncludedStart()->getTimestamp() -  $period->getIncludedEnd()->getTimestamp() === 0) {
             return true;
         }
 
